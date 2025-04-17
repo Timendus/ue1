@@ -3,8 +3,10 @@ package main
 import (
 	"fmt"
 	"os"
+	"path"
 	"strconv"
 
+	"github.com/timendus/ue1/helpers"
 	"github.com/timendus/ue1/ue1"
 )
 
@@ -27,11 +29,34 @@ func main() {
 		speed = 50
 	}
 
-	// Load the binary file to execute
-	fmt.Printf("Emulating file '%s'\n", filename)
-	program, err := loadFile(filename)
-	if err != nil {
-		panic(err)
+	var program []byte
+	switch path.Ext(filename) {
+	case ".asm":
+		// Assemble the source code
+		fmt.Printf("Emulating file '%s'\n", filename)
+		var err error
+		contents, err := helpers.LoadTextFile(filename)
+		if err != nil {
+			fmt.Println(err)
+			os.Exit(1)
+		}
+		program, err = ue1.Assemble(contents)
+		if err != nil {
+			fmt.Println(err)
+			os.Exit(1)
+		}
+	case ".bin":
+		// Load the binary file to execute
+		fmt.Printf("Emulating file '%s'\n", filename)
+		var err error
+		program, err = helpers.LoadBinaryFile(filename)
+		if err != nil {
+			fmt.Println(err)
+			os.Exit(1)
+		}
+	default:
+		fmt.Println("\033[91;1mUnknown file type\033[0m: " + os.Args[1] + "\nExpected a .asm or a .bin file.")
+		os.Exit(1)
 	}
 
 	// Actually run the emulator
@@ -43,15 +68,4 @@ func main() {
 		BellFunc: func() { fmt.Print("\a") },
 	}
 	run(&cpu)
-}
-
-func loadFile(filename string) ([]byte, error) {
-	if _, err := os.Stat(filename); err != nil {
-		return nil, fmt.Errorf("requested file '%s' not found", filename)
-	}
-	file, err := os.ReadFile(filename)
-	if err != nil {
-		return nil, fmt.Errorf("error reading file '%s': %s", filename, err.Error())
-	}
-	return file, nil
 }

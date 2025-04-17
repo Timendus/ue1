@@ -38,9 +38,10 @@ Usage:
 ue1emu <input file> [<cpu speed in hz>]
 ```
 
-Input file should be a binary. The CPU speed is optional; it will run the binary
-at 50Hz by default. If you specify a different number as the second parameter,
-that speed will be used.
+Input file should be either in assembly language (`.asm`) or an assembled binary
+file (`.bin`). The CPU speed is optional; it will run the binary at 50Hz by
+default. If you specify a different number as the second parameter, that speed
+will be used.
 
 When the emulator is running, you can use `h` to halt the system, `s` to step
 through the instructions (halting after every instruction) or `r` to resume

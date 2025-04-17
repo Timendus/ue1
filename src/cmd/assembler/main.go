@@ -20,7 +20,7 @@ func main() {
 	input := os.Args[1]
 	output := os.Args[2]
 
-	contents, err := helpers.LoadFile(input)
+	contents, err := helpers.LoadTextFile(input)
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)
