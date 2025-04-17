@@ -28,18 +28,19 @@ const (
 )
 
 func (cpu *UE1) Step() {
-	opcode := (cpu.Program[cpu.PC] & 0xF0) >> 4
-	operand := cpu.Program[cpu.PC] & 0x0F
+	opcode := Opcode((cpu.Program[cpu.PC] & 0xF0) >> 4)
+	operand := Operand(cpu.Program[cpu.PC] & 0x0F)
 	cpu.PC = (cpu.PC + 1) % len(cpu.Program)
 
 	switch opcode {
 
-	case 0b0000: // NOPO / NOP0
+	case NOP0:
+		// No operation
 
-	case 0b0001: // LD
+	case LD:
 		cpu.RR = cpu.getValue(operand)
 
-	case 0b0010: // ADD
+	case ADD:
 		result := 0
 		if cpu.RR {
 			result += 1
@@ -53,7 +54,7 @@ func (cpu *UE1) Step() {
 		cpu.RR = (result & 1) != 0
 		cpu.Carry = (result & 2) != 0
 
-	case 0b0011: // SUB
+	case SUB:
 		result := 0
 		if cpu.RR {
 			result += 1
@@ -67,43 +68,43 @@ func (cpu *UE1) Step() {
 		cpu.RR = (result & 1) != 0
 		cpu.Carry = (result & 2) != 0
 
-	case 0b0100: // ONE
+	case ONE:
 		cpu.RR = true
 		cpu.Carry = false
 
-	case 0b0101: // NAND
+	case NAND:
 		cpu.RR = !cpu.RR || !cpu.getValue(operand)
 
-	case 0b0110: // OR
+	case OR:
 		cpu.RR = cpu.RR || cpu.getValue(operand)
 
-	case 0b0111: // XOR
+	case XOR:
 		cpu.RR = cpu.RR != cpu.getValue(operand)
 
-	case 0b1000: // STO
+	case STO:
 		cpu.setValue(operand, cpu.RR)
 
-	case 0b1001: // STOC
+	case STOC:
 		cpu.setValue(operand, !cpu.RR)
 
-	case 0b1010: // IEN
+	case IEN:
 		cpu.IEN = cpu.RR
 
-	case 0b1011: // OEN
+	case OEN:
 		cpu.OEN = cpu.RR
 
-	case 0b1100: // IOC
+	case IOC:
 		cpu.BellFunc()
 
-	case 0b1101: // RTN
+	case RTN:
 		cpu.PC += 1
 
-	case 0b1110: // SKZ
+	case SKZ:
 		if !cpu.RR {
 			cpu.PC += 1
 		}
 
-	case 0b1111: // NOPF
+	case NOPF:
 		cpu.State = STATE_HALTED
 
 	default:
@@ -111,7 +112,7 @@ func (cpu *UE1) Step() {
 	}
 }
 
-func (cpu *UE1) getValue(operand byte) bool {
+func (cpu *UE1) getValue(operand Operand) bool {
 	helpers.Assert(operand < 16, "We should never see an operand over 15")
 
 	if !cpu.IEN {
@@ -129,7 +130,7 @@ func (cpu *UE1) getValue(operand byte) bool {
 	return false
 }
 
-func (cpu *UE1) setValue(operand byte, value bool) {
+func (cpu *UE1) setValue(operand Operand, value bool) {
 	helpers.Assert(operand < 16, "We should never see an operand over 15")
 
 	if !cpu.OEN {
