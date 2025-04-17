@@ -1,11 +1,13 @@
-package main
+package ue1
 
 import (
 	"fmt"
 	"strings"
+
+	"github.com/timendus/ue1/helpers"
 )
 
-func assemble(input string) ([]byte, error) {
+func Assemble(input string) ([]byte, error) {
 	output := make([]byte, 0)
 
 	lines := strings.Split(input, "\n")
@@ -24,7 +26,7 @@ func assemble(input string) ([]byte, error) {
 
 		line = strings.ToUpper(line)
 		parts := strings.Fields(line)
-		assert(len(parts) > 0, "We should never get zero fields here")
+		helpers.Assert(len(parts) > 0, "We should never get zero fields here")
 
 		var bytecode byte
 
@@ -62,7 +64,7 @@ func assemble(input string) ([]byte, error) {
 		case "NOPF":
 			bytecode = 240
 		default:
-			return nil, fmt.Errorf("Unknown opcode '%s' at line %d", parts[0], num+1)
+			return nil, fmt.Errorf("unknown opcode '%s' at line %d", parts[0], num+1)
 		}
 
 		if len(parts) > 1 {
@@ -100,7 +102,7 @@ func assemble(input string) ([]byte, error) {
 			case "OR7", "IR7":
 				bytecode += 15
 			default:
-				return nil, fmt.Errorf("Unknown operand '%s' at line %d", parts[1], num+1)
+				return nil, fmt.Errorf("unknown operand '%s' at line %d", parts[1], num+1)
 			}
 		}
 

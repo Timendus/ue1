@@ -16,9 +16,8 @@ If you are interested in the assembly programs that I have found and/or
 
 To familiarize myself with the machine and its assembly language, I first
 re-implemented Usagi Electric's assembler and emulator in Go. If you are
-interested in these tools, the binaries are in the [dist directory](./dist/) of
-this repository. The sources are in the [assembler](./assembler/) and
-[emulator](./emulator/) directories.
+interested in using these tools, the binaries are available for download in the
+[dist directory](./dist/) of this repository.
 
 ### Assembler
 
@@ -54,10 +53,15 @@ Press Escape to stop the program.
 
 ## Development
 
-There are Makefiles in the directories for the emulator and assembler with
-commands for compiling and testing.
+The gist of it:
+
+```sh
+git clone git@github.com:Timendus/ue1.git
+cd ue1/src
+make build
+```
 
 The directory structure of the assembly progams is set up in such a way to also
-be the test suite for the assembler. Running `make tests` in the assembler
-directory should (if you have Go installed) assemble each `.asm` file and
-compare the result to the corresponding `.bin` file.
+be the test suite for the assembler. Running `make tests` in the src directory
+should (if you have Go installed) assemble each `.asm` file and compare the
+result to the corresponding `.bin` file.

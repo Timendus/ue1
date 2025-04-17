@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"os"
 	"strconv"
+
+	"github.com/timendus/ue1/ue1"
 )
 
 func main() {
@@ -33,22 +35,23 @@ func main() {
 	}
 
 	// Actually run the emulator
-	cpu := UE1{
-		program: program,
-		speed:   speed,
-		running: true,
-		state:   STATE_RUNNING,
+	cpu := ue1.UE1{
+		Program:  program,
+		Speed:    speed,
+		Running:  true,
+		State:    ue1.STATE_RUNNING,
+		BellFunc: func() { fmt.Print("\a") },
 	}
-	cpu.run()
+	run(&cpu)
 }
 
 func loadFile(filename string) ([]byte, error) {
 	if _, err := os.Stat(filename); err != nil {
-		return nil, fmt.Errorf("Requested file '%s' not found", filename)
+		return nil, fmt.Errorf("requested file '%s' not found", filename)
 	}
 	file, err := os.ReadFile(filename)
 	if err != nil {
-		return nil, fmt.Errorf("Error reading file '%s': %s", filename, err.Error())
+		return nil, fmt.Errorf("error reading file '%s': %s", filename, err.Error())
 	}
 	return file, nil
 }
