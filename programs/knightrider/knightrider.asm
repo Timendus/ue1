@@ -1,7 +1,7 @@
 ; Enable input and output
 ONE
-IEN RR
-OEN RR
+IEN
+OEN
 
 ; Init output register
 STO OR0

@@ -4,15 +4,14 @@
 
 ; CPU initialization
 ONE
-IEN RR
-OEN RR
-NAND RR
-STO SR0  ; Flag that we have seen no differences (0)
+IEN
+OEN
+STOC SR0  ; Flag that we have seen no differences (0)
 
 ; Compare scratch register to input switches
 LD IR1
 XOR SR1
-SKZ      ; If they are the same, result is 0, skip next instruction
+SKZ      ; If they are the same, result register is 0, skip next instruction
 STO SR0  ; Otherwise, result is 1, store in flag
 LD IR2
 XOR SR2
@@ -42,7 +41,7 @@ STO SR0
 ; Beep if we have seen differences (SR0 is 1)
 LD SR0
 SKZ
-IOC SR0  ; Ring bell
+IOC      ; Ring bell
 
 ; Copy input register to scratch register
 LD IR1

@@ -175,3 +175,7 @@ func opcodeToText(instruction byte) string {
 		return ""
 	}
 }
+
+func bell() {
+	fmt.Print("\a") // Terminal beep
+}

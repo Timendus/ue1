@@ -1,7 +1,5 @@
 package main
 
-import "fmt"
-
 type UE1 struct {
 	pc    int   // Program counter
 	sr    uint8 // Scratch register
@@ -90,7 +88,7 @@ func (cpu *UE1) step() {
 		cpu.oen = cpu.rr
 
 	case 0b1100: // IOC
-		fmt.Print("\a") // Beep
+		bell()
 
 	case 0b1101: // RTN
 		cpu.pc += 1
