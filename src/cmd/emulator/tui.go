@@ -80,7 +80,7 @@ func run(cpu *ue1.UE1) {
 func printInternals(cpu *ue1.UE1) {
 	fmt.Print("\033[2J\033[H") // Clear the screen
 
-	fmt.Printf("Next Instruction : %08b (%s)\n", cpu.Program[cpu.PC], opcodeToText(cpu.Program[cpu.PC]))
+	fmt.Printf("Next Instruction : %08b (%s)\n", cpu.Program[cpu.PC], ue1.DisassembleInstruction(cpu.Program[cpu.PC]))
 	fmt.Println("Memory address   : " + strconv.Itoa(cpu.PC))
 	fmt.Println("State            : " + stateString(cpu))
 	fmt.Println()
@@ -129,51 +129,4 @@ func stateString(cpu *ue1.UE1) string {
 		helpers.Fail("These should be the only states")
 	}
 	return ""
-}
-
-func opcodeToText(instruction byte) string {
-	operand := instruction & 0xF
-	inputOperands := []string{
-		"SR0", "SR1", "SR2", "SR3", "SR4", "SR5", "SR6", "SR7", "RR", "IR1", "IR2", "IR3", "IR4", "IR5", "IR6", "IR7",
-	}
-	outputOperands := []string{
-		"SR0", "SR1", "SR2", "SR3", "SR4", "SR5", "SR6", "SR7", "OR0", "OR1", "OR2", "OR3", "OR4", "OR5", "OR6", "OR7",
-	}
-
-	switch instruction & 0xF0 >> 4 {
-	case 0b0000:
-		return "NOP0"
-	case 0b0001:
-		return "LD " + inputOperands[operand]
-	case 0b0010:
-		return "ADD " + inputOperands[operand]
-	case 0b0011:
-		return "SUB " + inputOperands[operand]
-	case 0b100:
-		return "ONE"
-	case 0b0101:
-		return "NAND " + inputOperands[operand]
-	case 0b0110:
-		return "OR " + inputOperands[operand]
-	case 0b0111:
-		return "XOR " + inputOperands[operand]
-	case 0b1000:
-		return "STO " + outputOperands[operand]
-	case 0b1001:
-		return "STOC " + outputOperands[operand]
-	case 0b1010:
-		return "IEN"
-	case 0b1011:
-		return "OEN"
-	case 0b1100:
-		return "IOC"
-	case 0b1101:
-		return "RTN"
-	case 0b1110:
-		return "SKZ"
-	case 0b1111:
-		return "NOPF"
-	default:
-		return ""
-	}
 }
