@@ -1,3 +1,9 @@
+; Knight Rider - by Timendus
+; Intended as a paper tape loop!
+;
+; Shows a "Knight Rider" LED pattern on the output register. Seems about right
+; at around 50Hz.
+
 ; Enable input and output
 ONE
 IEN

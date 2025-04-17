@@ -1,6 +1,11 @@
-; A simple way to use the input switches to ring the bell.
-; Technically a test of both the input switches and the bell, but seeing that
-; the bell is currently an issue on the hardware, it's a bell test ;)
+; Bell test - by Timendus
+; Intended as a paper tape loop!
+;
+; Flip any of the input switches and the bell should ring once, each time you
+; make a change.
+;
+; Unfortunately the bell doesn't ring every time in my emulator, but I'm
+; assuming that's an issue with the emulator and not this program.
 
 ; CPU initialization
 ONE

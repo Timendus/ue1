@@ -1,38 +1,37 @@
 ; Fibonacci
-; This program should calculate the Fibonacci sequence.
+; This program should calculate the Fibonacci sequence up to 21.
 ; Based on program as seen in https://www.youtube.com/watch?v=JsbzHNOEsZ4, but
 ; modified a bit to make it work for me.
 
 ; CPU initialization
 ONE
-IEN RR
-OEN RR
-NAND RR
+IEN
+OEN
 
 ; Empty Scratch Register and Output Register
-STO SR0
-STO SR1
-STO SR2
-STO SR3
-STO SR4
-STO SR5
-STO SR6
-STO SR7
+STOC SR0
+STOC SR1
+STOC SR2
+STOC SR3
+STOC SR4
+STOC SR5
+STOC SR6
+STOC SR7
 
-STO OR0
-STO OR1
-STO OR2
-STO OR3
-STO OR4
-STO OR5
-STO OR6
-STO OR7
+STOC OR0
+STOC OR1
+STOC OR2
+STOC OR3
+STOC OR4
+STOC OR5
+STOC OR6
+STOC OR7
 
 ; Initialze the two 4-bit operands in the scratch register
-STOC SR0
-STOC SR4
+STO SR0
+STO SR4
 
-; Add the two 4-bit operands together and store result in output
+; Add the two 4-bit operands together
 LD SR0
 ADD SR4
 STO SR0
@@ -57,7 +56,7 @@ LD SR3
 STO OR3
 
 
-; Add the two 4-bit operands together and store result in output
+; Add the two 4-bit operands together
 LD SR4
 ADD SR0
 STO SR4
@@ -82,7 +81,7 @@ LD SR7
 STO OR3
 
 
-; Add the two 4-bit operands together and store result in output
+; Add the two 4-bit operands together
 LD SR0
 ADD SR4
 STO SR0
@@ -107,7 +106,7 @@ LD SR3
 STO OR3
 
 
-; Add the two 4-bit operands together and store result in output
+; Add the two 4-bit operands together
 LD SR4
 ADD SR0
 STO SR4
@@ -132,7 +131,7 @@ LD SR7
 STO OR3
 
 
-; Add the two 4-bit operands together and store result in output
+; Add the two 4-bit operands together
 LD SR0
 ADD SR4
 STO SR0
@@ -176,5 +175,5 @@ STO OR4
 
 
 ; We're done!
-IOC SR0 ; Ring bell
-NOPF SR0 ; Halt program
+IOC    ; Ring bell
+NOPF   ; Halt program
