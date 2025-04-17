@@ -16,7 +16,6 @@ type UE1 struct {
 
 	Program  []byte
 	Speed    int
-	Running  bool
 	State    int
 	BellFunc func()
 }

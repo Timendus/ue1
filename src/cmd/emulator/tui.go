@@ -11,6 +11,8 @@ import (
 )
 
 func run(cpu *ue1.UE1) {
+	running := true
+
 	// Make sure we read key strokes during execution
 	if err := keyboard.Open(); err != nil {
 		panic(err)
@@ -27,7 +29,7 @@ func run(cpu *ue1.UE1) {
 
 			switch key {
 			case keyboard.KeyEsc:
-				cpu.Running = false
+				running = false
 				return
 			}
 
@@ -57,7 +59,7 @@ func run(cpu *ue1.UE1) {
 	}()
 
 	// Run the emulator until we exit the program
-	for cpu.Running {
+	for running {
 		printInternals(cpu)
 
 		if cpu.State != ue1.STATE_HALTED {
@@ -112,7 +114,7 @@ func printInternals(cpu *ue1.UE1) {
 	}
 	fmt.Printf("Scratch register = %08b (%d)\n", cpu.SR, cpu.SR)
 	fmt.Printf("Output register  = %08b (%d)\n", cpu.OR, cpu.OR)
-	fmt.Printf("Input switches   = %08b (%d)\n", cpu.IR, cpu.IR)
+	fmt.Printf("Input switches   = %07b (%d)\n", cpu.IR>>1, cpu.IR>>1)
 	fmt.Println()
 	fmt.Println("Keys: [H]alt [S]tep [R]un. [1]-[7] to toggle input switches. [Escape] to quit.")
 }

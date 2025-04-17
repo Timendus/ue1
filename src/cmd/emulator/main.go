@@ -60,12 +60,10 @@ func main() {
 	}
 
 	// Actually run the emulator
-	cpu := ue1.UE1{
+	run(&ue1.UE1{
 		Program:  program,
 		Speed:    speed,
-		Running:  true,
 		State:    ue1.STATE_RUNNING,
 		BellFunc: func() { fmt.Print("\a") },
-	}
-	run(&cpu)
+	})
 }

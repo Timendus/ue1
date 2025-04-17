@@ -20,20 +20,22 @@ func main() {
 	input := os.Args[1]
 	output := os.Args[2]
 
+	// Read the input file
 	contents, err := helpers.LoadTextFile(input)
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)
 	}
 
+	// Convert to binary
 	fmt.Printf("Assembling '%s' 🡆 '%s'\n", input, output)
-
 	result, err := ue1.Assemble(contents)
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)
 	}
 
+	// Write output file
 	err = os.WriteFile(output, result, 0644)
 	if err != nil {
 		fmt.Println(err)
